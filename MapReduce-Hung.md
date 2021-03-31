@@ -1,6 +1,6 @@
 # MapReduce: Simplified Data Processing on Large Clusters
 
-##1, Giới thiệu
+## 1, Giới thiệu
 * Trong thời điểm bấy giờ, các hệ thống tính toán có cơ chế thực hiện xử lý dữ liệu lớn một cách khá trực tiếp. Điều này gây ra các vấn đề nhưi gian chạy lớn, khó kiểm soát lỗi, độ phức tạp cao,...
 * Các tác giả thiết kế ra một trường phái gọi là MapReduce với mục đích giải quyết hết các vấn đề tồn đọng của tính toán song song, của hệ phân tán trong việc xử lý dữ liệu lớn.
 ## 2.Mô hình
@@ -75,8 +75,8 @@
 
 ### b, Đảm bảo thứ tự
 * Các tác giả đảm bảo rằng: trong 1 phân vùng, các cặp key/value sẽ được sắp xếp theo thứ tự tăng dần của key. Việc này giúp cho đầu ra cũng sẽ được sắp xếp, thuận tiện cho người dùng tra cứu bằng key hơn.
-#
-## c, Hàm hợp (Combiner function)
+
+### c, Hàm hợp (Combiner function)
 * Trong một số trường hợp, các công việc Map tạo ra nhiều khóa trung gian giống nhau, và người dùng lại viết hàm Reduce có tính giao hoán và kết hợp. Một ví dụ tiêu biểu là bài toán đếm số từ: nhiều công việc Map khả năng cao sẽ có cùng đầu ra dạng [the, 1] (từ the xuất hiện trong Tiếng Anh rất nhiều). Các tác giả vì vậy đã tạo ra 1 hàm hợp cho phép người dùng trộn (merge) các dữ liệu trùng lặp này với nhau trước khi chuyển cho các công việc Reduce.
 * Hàm hợp sẽ được thực hiện trên các máy worker chạy công việc Map. Thường thì đoạn mã cho hàm hợp và hàm Reduce sẽ giống nhau. Khác biệt duy nhất có lẽ là đầu ra hàm Reduce sẽ được lưu vào file output cuối cùng, đầu ra của 1 hàm hợp sẽ được lưu vào file trung gian, sau đó file này sẽ được gửi vào worker chạy Reduce.
 
@@ -88,18 +88,18 @@
 ### e, Tác dụng phụ
 * Trong một số trường hợp, người dùng cảm thấy tiện hơn khi tạo ra 1 file mới để lưu các đầu ra được bổ sung vào từ các công việc Map/Reduce. Các tác giả sẽ để cho cho bên phát triển ứng dụng xử lý các tác dụng phụ kiểu này.
 
-###f, Bỏ qua các record xấu.
+### f, Bỏ qua các record xấu.
 * Các bug ở trong các đoạn code của người dùng thường khó tránh khỏi. Chúng khiến các hàm Map/Reduce không thể chạy được với một số record. Cách giải quyết phổ biến sẽ là fix các bug đó, nhưng đôi khi việc này không khả thi. Vì vậy, thư viện MapReduce cung cấp cơ chế phát hiện record nào gây ra lỗi và bỏ qua (skip) không xử lý record này.
 
-###g,Thực thi cục bộ (Local execution)
+### g,Thực thi cục bộ (Local execution)
 * Debug lỗi với các hàm Map/Reduce không đơn giản bởi thực tế các tính toán được chạy trên hệ phân tán với hàng nghìn máy con.
 * Thư viện MapReduce cung cấp một chức năng giúp người dụng triển khai toàn bộ chương trình trên 1 máy cục bộ. Người dùng nắm quyền điều hành với chương trình và có thể dễ dàng lựa chọn công cụ debug mà họ muốn, ví dụ như gdb.
 
-###h, Thông tin trạng thái
+### h, Thông tin trạng thái
 * Master sẽ chạy một server HTTP của riêng nó và xuất ra các trang chứa thông tin trạng thái của chương trình. Các trang thông tin này cho người dùng biết tiến độ của chương trình, ví dụ bao nhiêu công việc hoàn thành, dung lương dữ liệu trung gian, dung lương của đầu ra, v.v. Người dùng dựa vào đây để dự đoán thời gian tính toán hoặc có nên thêm tài nguyên hay không.
 * Chức năng này cũng rất tiện cho người dùng debug code của họ khi cũng chỉ ra các thông tin những worker nào gặp lỗi, công việc nào đang được chạy trên các worker đó.
 
-###i, Bộ đếm
+### i, Bộ đếm
 * Thư viện MapReduce cung cấp 1 cơ chế bộ đếm giúp đếm số lần xuất hiện của các sự kiện. Ví dụ như đếm số từ được xử lý trong chương trình đếm từ.
 * Người dùng sẽ tạo 1 object của lớp Counter và tạo bộ đếm phù hợp trong hàm Map/Reduce.
 * Một số giá trị có sẵn bộ đếm được tạo bởi thư viện như số cặp key/value đầu vào được xủ lý hay đầu ra có bao nhiêu số cặp key/value.
@@ -111,7 +111,7 @@ Phần này bàn về hiệu năng của 1 chương trình MapReduce được vi
 * Cluster có khoảng 1800 máy. Mỗi máy được trang bị 2 bộ xử lý Inter Xeon 2GHz, 4GB Ram, 2 ổ đĩa IDE 160GB và 1 đường truyền Ethernet.
 * Trong 4GB Ram, sẽ có khoảng 1-1.5GB dành cho các tác vụ không liên quan đến chương trình MapReduce. Chương trình được chạy vào chiều cuối tuần, khi mà các CPU, ổ đĩa hay mạng đều ở trạng thái rảnh.
 
-###b, Grep
+### b, Grep
 * Chương trình grep sẽ quét qua 10^10 bản ghi 100B, để tìm ra 1 mẫu ba kí tự tương đối hiếm (xuất hiện 1 lần trong 92337 bản ghi). Đầu vào được chia thành các phần 64MB (M=15000) vào đầu ra được đặt vào 1 file duy nhất (R=1).
 
 ### c, Sắp xếp
@@ -121,10 +121,10 @@ Phần này bàn về hiệu năng của 1 chương trình MapReduce được vi
 - Thời gian chuyển dữ liệu từ công việc Map sang Reduce qua 1 đường truyền mạng: Sau 300 giây đầu thì có một số worker Reduce hoàn thành công việc. Thời giạn để chuyển dữ liệu qua đường truyền mạng của cả hệ thống là khoảng 600 giây.
 - Lưu dữ liệu: Tốc độ lưu dữ liệu là khoảng 2-4GB/s, tổng thời gian lưu là 850 giây
 
-###d, Hiệu quả của Backup công việc.
+### d, Hiệu quả của Backup công việc.
 * Sau khoảng 960 giây, tất cả trừ 5 công việc Reduce đã hoàn thành. 5 straggler này thì tốn tận 300 giây nữa để hoàn thành. Với cơ chế backup, tổng thời gian chạy đã được cải thiện 44%.
 
-###e, Dừng chạy 200 máy
+### e, Dừng chạy 200 máy
 * Trong trường hợp cố tình dừng chạy 200 máy trong 1746 máy worker sau một vài phút, tổng thời gian chạy là 933 giây, cải thiện khoảng 5% so với chế độ bình thường.
 
 ## 6, Các thành quả
