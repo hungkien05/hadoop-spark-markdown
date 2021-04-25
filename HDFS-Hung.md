@@ -24,7 +24,7 @@
 #### f, Tính di dộng  của phàn cứng không đồng nhất và phần mềm.
 * HDFS được thiết kế để dễ dàng di chuyển từ nền tảng này sang nền tảng khác. Điều này tạo điều kiện để áp dụng HDFS rộng rãi như một lựa chọn phổ biến cho đa số ứng dụng.
 
-###3, Namenode và Datanode
+### 3, Namenode và Datanode
 * HDFS có kiến trúc chủ/nô.  1 HDFS chứa 1 NameNode duy nhất, đóng vai trò server quản lý không gian file và truy cập của các client. 
 * Thông thường, 1 file sẽ chia nhỏ thành 1 hoặc nhiều block. Những block này sẽ được chứa trong các DataNode. DataNode có nhiệm vụ quản lý lưu trữ của node đó và nhận lệnh từ NameNode để tạo, xóa hoặc nhân bản block chứa trong DataNode đó.
 * NameNode và DataNode là 1 phần của phần mềm thiết kể để chạy trên các phần cứng thương mại. Các phần cứng này chủ yếu dùng hệ điều hành GNU/Linux. HDFS được build bằng Java, bất cứ máy nào hỗ trợ Java thì đều có thể là NameNode hoặc DataNode. Cũng nhờ tính di động của  Java mà HDFS có thể chạy trên nhiều loại máy khác nhau. Thông thường sẽ có 1 máy chỉ để dùng để chạy phần mềm NameNode. Các máy còn lại trọng cụm sẽ là DataNode.
