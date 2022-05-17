@@ -1,0 +1,27 @@
+CREATE RULE bai1 AS
+@gioitinh in ("NAM,"NU") ;
+EXEC Sp_BindRule bai1, "SINHVIEN.GIOITINH";
+
+CREATE RULE bai2a AS
+@diem between 0 and 10 ;
+EXEC Sp_BindRule bai2a, "KETQUA.DIEM";
+
+CREATE RULE bai2b AS
+@hoc_ky between 1 and 6 ;
+EXEC Sp_BindRule bai2b, "KETQUA.HOCKY";
+
+CREATE RULE bai3a AS
+@khoa between 13 and 20 ;
+EXEC Sp_BindRule bai3a, "LOP.KHOA";
+
+CREATE RULE bai3b AS
+@so_sinh_vien between 30 and 80 ;
+EXEC Sp_BindRule bai3b, "LOP.SOSINHVIEN";
+
+CREATE RULE bai4 AS
+@ma_nghe in ("LTMT","TKDH","QTM") ;
+EXEC Sp_BindRule bai4, "NGHE.MANGHE";
+
+CREATE RULE bai5 AS
+(@so_hoc_trinh %2) =0 and @so_hoc_trinh between 4 and 15;
+EXEC Sp_BindRule bai5, "MONHOC.SOHOCTRINH"
